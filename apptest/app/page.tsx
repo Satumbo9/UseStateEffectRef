@@ -5,44 +5,52 @@ import Link from "next/link";
 import React from "react";
 import car1 from "./img/car1.webp";
 import { useRef, useState, useEffect } from "react";
+import gsap from "gsap";
+import Flip from "gsap-trial/Flip";
+
+// const FlipCard: React.FC = () => {};
 
 export default function Home() {
-  const [width, setWidth] = useState("100px");
-  const [height, setHeight] = useState("100px");
-  const imgRef = useRef(null);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const frontRef = useRef<HTMLDivElement>(null);
+  const backRef = useRef<HTMLDivElement>(null);
 
-  const handleClick = () => {
-    console.log("Image Clicked!!!!");
+  const [isFlipped1, setisFlipped1] = useState<boolean>(false);
+  const [isFlipped2, setisFlipped2] = useState<boolean>(false);
+  const [isScaled, setisScaled] = useState<boolean>(false);
 
-    if (imgRef.current) {
-      console.log("Styled being applied");
+  const handleFlip = () => {
+    if (cardRef.current) {
+      setisScaled((prev) => !prev);
+      gsap.to(cardRef.current, {
+        // rotationY: isFlipped1 ? 0 : 180,
+        duration: 0.6,
 
-      // It's possible to change styles and properties through useRef
+        scale: isScaled ? 1 : 1.4,
 
-      // setWidth((imgRef.current.style.width = "900px"));
-      // setWidth((imgRef.current.style.height = "auto"));
+        // transformOrigin: "50% 50%",
+        ease: "power1.inOut",
+      });
+      gsap.to(backRef.current, {});
     }
   };
-
-  useEffect(() => {
-    console.log("Component Loaded " + imgRef.current);
-  });
-
   return (
-    <div
-      className="cursor-pointer"
-      ref={imgRef}
-      onClick={handleClick}
-      // style={{ display: "inline-block" }}
-    >
-      <p>Hello my name is Eddie</p>
-      <Image
-        priority
-        src={car1}
-        width={500}
-        height={500}
-        alt="image of my dream card"
-      />
-    </div>
+    <main className="flex h-screen items-center justify-center bg-sky-300">
+      <div
+        ref={cardRef}
+        onClick={handleFlip}
+        className="cursor-pointer bg-red-500"
+        // style={{ display: "inline-block" }}
+      >
+        <p>Hello my name is Eddie</p>
+        <Image
+          priority
+          src={car1}
+          width={500}
+          height={500}
+          alt="image of my dream card"
+        />
+      </div>
+    </main>
   );
 }
