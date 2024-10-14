@@ -5,8 +5,9 @@ import gsap from "gsap";
 import { useEffect, useRef } from "react";
 import { TextPlugin } from "gsap/all";
 import { ScrambleTextPlugin } from "gsap-trial/ScrambleTextPlugin";
+import { Draggable } from "gsap/Draggable";
 
-gsap.registerPlugin(TextPlugin, ScrambleTextPlugin);
+gsap.registerPlugin(TextPlugin, ScrambleTextPlugin, Draggable);
 
 const TryTest = () => {
   const TextRef = useRef(null);
@@ -37,8 +38,9 @@ const TryTest = () => {
   });
 
   return (
-    <section className="flex h-screen font-bold text-3xl justify-center items-center text-red-500">
+    <section className="relative flex h-screen font-bold text-3xl justify-center items-center text-red-500">
       <div ref={TextRef}></div>
+      <div className="absolute bg-red-500 h-40 w-10"></div>
     </section>
   );
 };
